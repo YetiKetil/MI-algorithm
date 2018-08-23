@@ -1,8 +1,12 @@
 # text-analysis
 
 
-Python3
+use Python3
+
+Install nltk:
+
 pip3 install nltk --user
+
 
 Clone the repository, step into it, go to python3 interpreter and test:
 
