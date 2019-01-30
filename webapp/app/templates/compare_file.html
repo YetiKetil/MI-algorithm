@@ -1,0 +1,10 @@
+{% extends "base.html"  %}
+    {% block content %}
+		<h1>Compare texts from file </h1>
+		<form method=post enctype=multipart/form-data>
+			<input type=file name=file>
+			<br>
+			<br>
+			<input class='btn' type=submit value="Run analysis">
+    	</form>
+	{% endblock %}
