@@ -1,3 +1,7 @@
+## About
+Development and test environment for Windows 10 is build in this folder.
+
+## How to start
 ### Build container
 `docker build . --tag=text-similarity-image`
 
