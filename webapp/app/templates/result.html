@@ -2,11 +2,13 @@
     {% block content %}
     <body class="body">
         <h1>Results</h1>
+        <form action="/result" method="post">
         <h3>
             {% autoescape false %}
                 {{text}}
             {% endautoescape %}
         </h3>
+        </form>
         <br>
 
         <div class="container" align="left">

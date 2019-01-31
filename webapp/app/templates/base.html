@@ -1,46 +1,19 @@
 <html>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <head>
       <title>Text Similarity</title>
-      <style>
-      /* Style buttons */
-      .btn {
-        background-color: DodgerBlue;
-        border: none;
-        color: white;
-        padding: 12px 30px;
-        cursor: pointer;
-        font-size: 20px;
-      }
-
-      /* Darker background on mouse-over */
-      .btn:hover {
-        background-color: RoyalBlue;
-      }
-
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-      }
-
-      td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-      }
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-</style>
     </head>
     <body>
         <div>
             <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('compare') }}">Run a simple test</a>
+            <a href="{{ url_for('simple_test') }}">Run a simple test</a>
+            <a href="{{ url_for('compare_paste') }}">Paste example text</a>
             <a href="{{ url_for('compare_file') }}">Compare text from file</a>
+            <a href="https://github.com/markokole/text-similarity-web" target="_blank">Source code in Github</a>
         </div>
         <hr>
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </body>
 </html>

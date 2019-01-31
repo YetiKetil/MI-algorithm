@@ -1,0 +1,51 @@
+{% extends "base.html"  %}
+    {% block content %}
+        <h2>Run a simple test</h2>
+        <form action="/simple_test" method="post">
+            {{ form.hidden_tag() }}
+
+		<table>
+		  <tr>
+			<th>{{ form.text1.label }}</th>
+			<th>{{ form.text2.label }}</th>
+		  </tr>
+		  <tr>
+			  <td>
+				  {{ form.text1(size=32) }}
+				  {% for error in form.text1.errors %}
+				  <span style="color: red;">[{{ error }}]</span>
+				  {% endfor %}
+			  </td>
+			  <td>
+				  {{ form.text2(size=32) }}
+				  {% for error in form.text2.errors %}
+				  <span style="color: red;">[{{ error }}]</span>
+				  {% endfor %}
+			  </td>
+		  </tr>
+			<tr>
+				<td>
+					The trainee program provides me with the knowledge and skills I need to do my job well
+				</td>
+				<td>
+					I have the opportunity for active practice through the trainee program (e.g., using knowledge form sessions, projects in the job
+				</td>
+			</tr>
+		</table>
+		<h4>
+			Copy above examples to the text fields for a simple demonstration
+		</h4>
+		{{ form.submit() }}
+
+    <hr>
+    <h3>
+        {% autoescape false %}
+            {{text}}
+        {% endautoescape %}
+    </h3>
+    {% if text != "" %}
+        <br>
+        <input type="button" class='btn' value="Download results" onclick="window.location.href='/download'" />
+    {% endif %}
+    </form>
+    {% endblock %}
