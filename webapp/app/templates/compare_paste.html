@@ -1,5 +1,26 @@
 {% extends "base.html"  %}
     {% block content %}
-	<h1>Compare pasted text</h1>
-  	<h2>Not available yet!</h2>
+        <h1>Compare pasted text</h1>
+        <form action="/compare_paste" method="post">
+            {{ form.hidden_tag() }}
+		<table>
+            <tr>
+			    <th>{{ form.text_box.label }}</th>
+		    </tr>
+		    <tr>
+                <td>
+                    {{ form.text_box(size=32) }}
+				    {% for error in form.text_box.errors %}
+				        <span style="color: red;">[{{ error }}]</span>
+				    {% endfor %}
+			    </td>
+		    </tr>
+		</table>
+        {{ form.submit() }}
+        <hr>
+        {% if text != "" %}
+            <h3>{{text}}</h3>
+            {% include "download.html"  %}
+        {% endif %}
+        </form>
     {% endblock %}

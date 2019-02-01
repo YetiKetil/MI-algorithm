@@ -36,16 +36,15 @@
 			Copy above examples to the text fields for a simple demonstration
 		</h4>
 		{{ form.submit() }}
-
-    <hr>
-    <h3>
-        {% autoescape false %}
-            {{text}}
-        {% endautoescape %}
-    </h3>
-    {% if text != "" %}
-        <br>
-        <input type="button" class='btn' value="Download results" onclick="window.location.href='/download'" />
-    {% endif %}
+		<hr>
+		{% if text != "" %}
+			<h2>Results</h2>
+			<h3>
+				{% autoescape false %}
+					{{text}}
+				{% endautoescape %}
+			</h3>
+			{% include "download.html"  %}
+		{% endif %}
     </form>
     {% endblock %}

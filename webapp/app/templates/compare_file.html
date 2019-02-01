@@ -6,5 +6,11 @@
 			<br>
 			<br>
 			<input class='btn' type=submit value="Run analysis">
-    	</form>
+    	<br>
+		{% if text != "" %}
+		<h3>{{text}}</h3>
+
+		{% include "download.html"  %}
+		{% endif %}
+		</form>
 	{% endblock %}
