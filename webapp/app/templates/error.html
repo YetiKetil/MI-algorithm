@@ -1,0 +1,11 @@
+{% extends "base.html"  %}
+
+{% block content  %}
+<h1>Unexpected error occured!</h1>
+<h2>Error message:</h2>
+<h3>{{ error_text }}</h3>
+<h2>Details:</h2>
+{% autoescape false %}
+    {{ traceback }}
+{% endautoescape %}
+{% endblock %}

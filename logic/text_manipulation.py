@@ -48,7 +48,7 @@ class text_manipulation(object):
 
     def analysis_from_pasted_text(self, pasted_text):
         """
-        
+
         :param pasted_text:
         :return:
         """

@@ -1,6 +1,14 @@
 {% extends "base.html"  %}
     {% block content %}
 		<h1>Compare texts from file </h1>
+		<br>
+		<h3>
+			File format allowed is one sentence per line. Avoid special characters in file, like tabulators.
+			<br>
+			{% autoescape false %}
+    			{{ file_prereq }}
+			{% endautoescape %}
+		</h3>
 		<form method=post enctype=multipart/form-data>
 			<input type=file name=file>
 			<br>
@@ -8,7 +16,7 @@
 			<input class='btn' type=submit value="Run analysis">
     	<br>
 		{% if text != "" %}
-		<h3>{{text}}</h3>
+		<h3>{{ text }}</h3>
 
 		{% include "download.html"  %}
 		{% endif %}

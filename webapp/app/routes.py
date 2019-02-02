@@ -80,6 +80,8 @@ def allowed_file(filename):
 def compare_file():
     print("request.method:", request.method)
     text = ""
+    file_prereq = "These file extensions are allowed: " + ', '.join(ALLOWED_EXTENSIONS) + ".<br>"
+    file_prereq += "Biggest file size allowed: " + str( app.config['MAX_CONTENT_LENGTH']/(1024*1024)) + " MB"
     if request.method == 'POST':
         print("compare_file - POST")
         # check if the post request has the file part
@@ -100,17 +102,26 @@ def compare_file():
             tm.analysis_from_file(filename)
 
         text = "Text similarity analysis is done!"
-    return render_template('compare_file.html', text = text)
+    return render_template('compare_file.html', text = text, file_prereq = file_prereq)
+
+
+@app.errorhandler(500)
+@app.errorhandler(404)
+def error_handler(error):
+    import traceback
+    print("******************************")
+    print(error)
+    print("******************************")
+
+    traceback = str(traceback.format_exc())
+    traceback_pretty = traceback.replace("\n", "<br>")
+
+
+    return render_template('error.html', error_text = str(error), traceback = traceback_pretty)
+
 
 """
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-"""
-
-"""
-@app.route('/result/<text>')
-def result(text):
-    text = tm.text_analysis(text)
-    return render_template('result.html', text=text)
 """
