@@ -27,13 +27,10 @@ VOLUME /local-git
 ENV PATH="/usr/lib/Anaconda/bin:${PATH}"
 
 RUN conda install -y -c anaconda flask flask-wtf
-RUN conda install -y -c conda-forge flask-sqlalchemy flask-migrate flask-bootstrap
+RUN conda install -y -c conda-forge flask-migrate
 
 ENV FLASK_APP="/local-git/text_sim.py"
 
 # copy files to container
 COPY copy_files/run_start.sh ./
 RUN chmod 700 *.sh
-
-# start services at container start
-#ENTRYPOINT ["/bin/bash", "/run_start.sh"]
