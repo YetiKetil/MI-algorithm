@@ -22,13 +22,23 @@ AWS (Amazon Web Services) is the public cloud service provider of choice for run
 ## Preparing production server
 Operating system: Centos 7 on Amazon's EC2
 
-### Preparing Docker
-#### Setup the repository:
-1. Install required packages: `sudo yum install -y yum-utils device-mapper-persistent-data lvm2`
-2. Set up the stable repository: `sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo`
-3. Install Docker: `sudo yum install -y docker-ce docker-ce-cli containerd.io`
-4. Start Docker: `sudo systemctl start docker`
-5. Give current user access the docker engine: `sudo usermod -a -G docker $USER`
-
 ### Install Git
 `sudo yum install -y git`
+
+### Clone repository
+git clone https://github.com/markokole/text-similarity-web
+
+### Step into directory
+cd text-similarity-web
+
+### install and setup Docker
+. prepare_docker.sh
+
+### Build Docker image
+Login to the instance again, step into the directory `text-similarity-web/docker_production` and build the image: `docker build . --tag=text-similarity-image`
+
+### Start container
+`docker run -itd --rm -p5000:5000 --name text-similarity --hostname text-similarity -v /home/centos/text-similarity-web:/local-git text-similarity-image`
+
+### Go into the container
+`docker exec -it text-similarity bash`
