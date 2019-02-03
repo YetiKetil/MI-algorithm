@@ -36,4 +36,4 @@ COPY copy_files/run_start.sh /home/centos
 RUN chown centos:centos /home/centos/run_start.sh
 
 # start services at container start
-#ENTRYPOINT ["/bin/bash", "/run_start.sh"]
+ENTRYPOINT ["/bin/bash", "/home/centos/run_start.sh"]
