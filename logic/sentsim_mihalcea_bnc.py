@@ -1,8 +1,9 @@
 from nltk.corpus import wordnet as wn
-from logic.string_processor import clean_string
 import nltk, re, string
 
 '''
+26/06/2018: Upgraded to Pyhton 3
+### NSM - Marko
 20/02/2014: BNC version
 08/07/2014: Revised for error
 10/07/2013: Fixed idf bug
@@ -18,7 +19,8 @@ class MihalceaSentSimBNC(object):
     #tc = None #term count?
     idf = {}
     debug = False
-    #idf_file = 'bnc.ic'
+    idf_file = 'resources/bnc.ic'
+    verbose = False #show detailed output
 
     def __init__(self):
         '''
@@ -28,44 +30,57 @@ class MihalceaSentSimBNC(object):
         #wnic = WordNetICCorpusReader(nltk.data.find('corpora/wordnet_ic'), '.*\.dat')
         #self.ic = wnic.ic('ic-brown.dat')
 
-        self.idf_file = '/local-git/logic/bnc.ic'
-
         '''
         Load bnc idf
         '''
         print('Loading BNC Information Content dictionary ...')
         '''
-        with io.open(self.idf_file, 'r', encoding="utf8") as bnc_idf:
+        with open(self.idf_file, 'r', encoding="utf8") as bnc_idf:
             for line in bnc_idf:
                 word, score = line.strip().split(',')
                 self.idf[word] = float(score)
         '''
-        f = open(self.idf_file, 'r')
+        '''
+        Marko
+        '''
+        f = open(self.idf_file, 'r', encoding="utf8")
         for line in f:
             if line != '\n':
               word, score = line.strip().split(',')
               self.idf[word] = float(score)
         print('Total of item:',len(self.idf))
 
+    # Download nltk resources if not yet available
     def download_nltk_resources(self):
         nltk.download('punkt')
         nltk.download('wordnet')
 
+    #clean and parse the string
+    #copied from string_processor.py
+    def clean_string(self, unclean_string):
+        regex = re.compile('[%s]' % re.escape(string.punctuation))
+
+        filtered = []
+        tokens = nltk.word_tokenize(unclean_string.lower())
+        for token in tokens:
+            token = regex.sub('',token)
+            if not token == '':
+                filtered.append(token)
+        return filtered
 
     def find_the_most_similar_word(self, term, tokenized_list):
-        best_score = 0
+        best_score = 0.
         best_term = ''
 
         for compared_term in tokenized_list:
             score = self.average_score(term, compared_term)
-            #print('score:',score)
             if score >= best_score:
                 best_score = score
                 best_term = compared_term
 
         return best_term, best_score
 
-    def average_score(self, word1, word2, verbose=False):
+    def average_score(self, word1, word2):
         '''
         Compute average of WSD scores using the most common synset
         '''
@@ -129,15 +144,18 @@ class MihalceaSentSimBNC(object):
                     #print msg
                     return score/count
 
-    def similarity(self, sentence1, sentence2):
+    def similarity(self, sentence1, sentence2, verbose=False):
+
+        self.verbose = verbose
+
         '''
         Similarity function
         '''
         #sentence1 = self.clean_string(sentence1)
         #sentence2 = self.clean_string(sentence2)
 
-        list1 = clean_string(sentence1)
-        list2 = clean_string(sentence2)
+        list1 = self.clean_string(sentence1)
+        list2 = self.clean_string(sentence2)
 
         '''
         First half
@@ -154,7 +172,9 @@ class MihalceaSentSimBNC(object):
 
             best_term, score = self.find_the_most_similar_word(term1, list2)
 
-            print('%s vs %s: %s' % (term1, best_term, score))
+            #print("verbose 1st half")
+            if self.verbose: print('%s vs %s: %s' % (term1, best_term, score))
+
             totalTerm1IDF += idf
             totalTerm1Score += score*idf
 
@@ -173,7 +193,7 @@ class MihalceaSentSimBNC(object):
             #print('idf',idf)
             best_term, score = self.find_the_most_similar_word(term2, list1)
 
-            print('%s vs %s: %s' % (term2, best_term, score))
+            if self.verbose: print('%s vs %s: %s' % (term2, best_term, score))
 
             totalTerm2IDF += idf
             #print(totalTerm2IDF)
@@ -200,12 +220,10 @@ class MihalceaSentSimBNC(object):
 
         return (first_half + second_half)*0.5
 
-'''
-sentsim = MihalceaSentSimBNC()
-text1 = "The trainee program provides me with the knowledge and skills I need to do my job well"
-text2 = "I have the opportunity for active practice through the trainee program (e.g., using knowledge form sessions, projects in the job"
+    def similarity_files(self, file1, file2, verbose=False):
+        file1_txt = open(file1, 'r', encoding = "ISO-8859-1").read()
+        file2_txt = open(file2, 'r', encoding = "ISO-8859-1").read()
 
-sentsim.download_nltk_resources()
-res = sentsim.similarity(text1, text2)
-print(text1, text2, res)
-'''
+        output = self.similarity(sentence1=file1_txt, sentence2=file2_txt, verbose=verbose)
+
+        return output
