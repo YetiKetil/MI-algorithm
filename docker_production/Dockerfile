@@ -32,8 +32,8 @@ RUN conda install -y -c conda-forge flask-sqlalchemy flask-migrate
 ENV FLASK_APP="/local-git/text_sim.py"
 
 # copy files to container
-COPY copy_files/run_start.sh /home/centos
-RUN chown centos:centos /home/centos/run_start.sh
+COPY copy_files/run_start.sh ./
+RUN chmod 700 *.sh
 
 # start services at container start
-ENTRYPOINT ["/bin/bash", "/home/centos/run_start.sh"]
+ENTRYPOINT ["/bin/bash", "/run_start.sh"]
