@@ -29,6 +29,7 @@ ENV PATH="/usr/lib/Anaconda/bin:${PATH}"
 RUN conda install -y -c anaconda flask flask-wtf
 RUN conda install -y -c conda-forge flask-migrate
 
+# mandatory for flask server to run properly
 ENV FLASK_APP="/local-git/text_sim.py"
 
 # copy files to container
