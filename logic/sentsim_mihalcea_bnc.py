@@ -1,8 +1,9 @@
 from nltk.corpus import wordnet as wn
 import nltk, re, string
+import webapp.app as app
 
 '''
-26/06/2018: Upgraded to Pyhton 3
+26/06/2018: Upgraded to Python 3
 ### NSM - Marko
 20/02/2014: BNC version
 08/07/2014: Revised for error
@@ -19,30 +20,14 @@ class MihalceaSentSimBNC(object):
     #tc = None #term count?
     idf = {}
     debug = False
-    idf_file = 'resources/bnc.ic'
     verbose = False #show detailed output
 
-    def __init__(self):
+    def __init__(self, idf_file):
         '''
         Constructor
         '''
-        #print 'Loading Brown information content ...'
-        #wnic = WordNetICCorpusReader(nltk.data.find('corpora/wordnet_ic'), '.*\.dat')
-        #self.ic = wnic.ic('ic-brown.dat')
-
-        '''
-        Load bnc idf
-        '''
-        print('Loading BNC Information Content dictionary ...')
-        '''
-        with open(self.idf_file, 'r', encoding="utf8") as bnc_idf:
-            for line in bnc_idf:
-                word, score = line.strip().split(',')
-                self.idf[word] = float(score)
-        '''
-        '''
-        Marko
-        '''
+        self.idf_file = idf_file
+        # Load bnc idf
         f = open(self.idf_file, 'r', encoding="utf8")
         for line in f:
             if line != '\n':

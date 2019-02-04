@@ -1,5 +1,5 @@
 # Text similarity project
-The project calculates similarity between 2 or more sentences. A Web User Interface is used to upload the file with sentences. It is also possible to do a small test by manually entering two sentences.
+The project calculates similarity between 2 or more sentences. A Web User Interface is used to upload the file with sentences. It is also possible to do a small test by manually entering two sentences or by copying a list of sentences.
 
 ## Technology stack
 * Docker
@@ -29,13 +29,15 @@ Operating system: Centos 7 on Amazon's EC2
 git clone https://github.com/markokole/text-similarity-web
 
 ### Step into directory
-cd text-similarity-web
+cd text-similarity-web/docker
 
 ### install and setup Docker
-. prepare_docker.sh
+`. prepare_centos.sh`
+This will also reboot the server
+
 
 ### Build Docker image
-Login to the instance again, step into the directory `text-similarity-web/docker_production` and build the image: `docker build . --tag=text-similarity-image`
+Login to the server again, step into the directory `text-similarity-web/docker` and follow the README.md file in the folder.
 
 ### Start container
 `docker run -itd --rm -p5000:5000 --name text-similarity --hostname text-similarity -v /home/centos/text-similarity-web:/local-git text-similarity-image`

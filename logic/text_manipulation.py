@@ -3,13 +3,16 @@ from logic.sentsim_mihalcea_bnc import MihalceaSentSimBNC
 
 class text_manipulation(object):
 
-    def __init__(self, upload_folder):
+
+
+    def __init__(self, upload_folder, idf_file):
+        self.idf_file = "/local-git/logic/resources/bnc.ic"
         self.input_list = ""
         self.upload_folder = upload_folder + "/"
         self.filename = ""
         self.save_filename = ""
         self.save_file_full_path = ""
-        open_file_full_path = self.upload_folder + self.filename
+        #open_file_full_path = self.upload_folder + self.filename
 
         self.list_of_results = []
 
@@ -20,7 +23,7 @@ class text_manipulation(object):
         :param text2:
         :return:
         """
-        sentsim = MihalceaSentSimBNC()
+        sentsim = MihalceaSentSimBNC(idf_file=self.idf_file)
         sentsim.download_nltk_resources()
 
         score = round(sentsim.similarity(text1, text2), 4)
@@ -109,6 +112,3 @@ class text_manipulation(object):
         for l in self.list_of_results:
             wfile.write(l + "\n")
         wfile.close()
-
-
-

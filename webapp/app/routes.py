@@ -6,12 +6,13 @@ from werkzeug.utils import secure_filename
 
 from logic.text_manipulation import text_manipulation
 
+idf_file = "/local-git/logic/resources/bnc.ic"
 UPLOAD_FOLDER = '/tmp'
 ALLOWED_EXTENSIONS = set(['txt', 'csv'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16MB file size is max
 
-tm = text_manipulation(app.config['UPLOAD_FOLDER'])
+tm = text_manipulation(upload_folder=app.config['UPLOAD_FOLDER'], idf_file=idf_file)
 
 
 @app.route('/')
