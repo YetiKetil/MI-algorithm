@@ -6,7 +6,7 @@ class text_manipulation(object):
 
 
     def __init__(self, upload_folder, idf_file):
-        self.idf_file = "/local-git/logic/resources/bnc.ic"
+        self.idf_file = idf_file
         self.input_list = ""
         self.upload_folder = upload_folder + "/"
         self.filename = ""
